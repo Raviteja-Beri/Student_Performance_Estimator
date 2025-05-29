@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Mark Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://www.svgrepo.com/show/331433/graduation-cap.svg" type="image/svg+xml">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                  url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 2.5rem;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .input-field {
+      transition: all 0.3s ease;
+      border: 2px solid #e2e8f0;
+      color: #333; /* Ensure text is visible */
+      background: #fff; /* White background for clarity */
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .input-field:focus {
+      border-color: #1e40af;
+      box-shadow: 0 0 10px rgba(30, 64, 175, 0.3);
+      outline: none;
+    }
+    .input-field::placeholder {
+      color: #6b7280; /* Clear placeholder color */
+      opacity: 1;
+    }
+    .predict-btn {
+      transition: all 0.3s ease;
+    }
+    .predict-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(30, 64, 175, 0.4);
+      background-color: #1e3a8a;
+    }
+    .result {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+    .result.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-4xl font-bold text-indigo-900 mb-4">Student Mark Predictor</h1>
+    <p class="text-gray-600 mb-6">Enter your study hours to predict your marks using our ML model!</p>
+    <div class="mb-6">
+      <input 
+        type="number" 
+        id="studyHours" 
+        placeholder="Enter study hours (e.g., 5)" 
+        min="0" 
+        step="0.1"
+        class="input-field w-full p-4 text-lg rounded-lg"
+      >
+    </div>
+    <button 
+      onclick="predictMarks()" 
+      class="predict-btn bg-indigo-800 text-white px-8 py-3 rounded-lg font-semibold"
+    >
+      Predict Marks
+    </button>
+    <h2 id="result" class="result text-2xl font-semibold text-green-700 mt-6"></h2>
+  </div>
+
+  <script>
+    function predictMarks() {
+      const studyHours = parseFloat(document.getElementById('studyHours').value);
+      const result = document.getElementById('result');
+
+      if (isNaN(studyHours) || studyHours < 0) {
+        result.textContent = 'Please enter a valid number of study hours!';
+        result.classList.add('show', 'text-red-600');
+        setTimeout(() => {
+          result.classList.remove('show', 'text-red-600');
+          result.textContent = '';
+        }, 2000);
+        return;
+      }
+
+      // Simulated ML prediction: marks = study_hours * 10 (for demo purposes)
+      const predictedMarks = (studyHours * 10).toFixed(2);
+      result.textContent = `Predicted Marks: ${predictedMarks}%`;
+      result.classList.add('show');
+    }
+
+    // Handle Enter key press
+    document.getElementById('studyHours').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') predictMarks();
+    });
+  </script>
+</body>
+</html>
